@@ -1,0 +1,87 @@
+﻿@page "/Pacientes"
+
+<div class="container-fluid">
+    <div class="text-center">
+        <h1>Pacientes</h1>
+    </div>
+    @if (flagVistaPaciente)
+    {
+        <div class="text-center m-4">
+            <button class="btn btn-primary w-25" @onclick="@(() => VistaResgitrarPaciente(true))">Regsitrar paciente</button>
+        </div>
+        <table class="table table-responsive table-primary">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Apellidos</th>
+                    <th scope="col">CorreoElectronico</th>
+                    <th scope="col">Telefono</th>
+                    <th scope="col">FechaNacimiento</th>
+                    <th scope="col">EstadoAfiliacion</th>
+                    <th scope="col">TipoDocumento</th>
+                    <th scope="col">NumeroDocumento</th>
+                    <th scope="col">Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                    int numero = 1;
+                    foreach (var paciente in ListaPacientes)
+                    {
+                        <tr>
+                            <th scope="row">@numero</th>
+                            <td>@paciente.Nombre</td>
+                            <td>@paciente.Apellidos</td>
+                            <td>@paciente.CorreoElectronico</td>
+                            <td>@paciente.Telefono</td>
+                            <td>@paciente.FechaNacimiento</td>
+                            <td>@paciente.EstadoAfiliacion</td>
+                            <td>@paciente.TipoDocumento</td>
+                            <td>@paciente.NumeroDocumento</td>
+                            <td><button class="btn btn-outline-primary me-1" @onclick="@(() => ActualizarRegistro(paciente, false))">Actualizar</button><button class="btn btn-outline-danger" @onclick="@(() => EliminarRegistro(paciente))">Eliminar</button></td>
+                        </tr>
+                        numero++;
+                    }
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <EditForm Model="PacienteModel" OnValidSubmit="EnviarRegistro">
+            <label class="form-label">Nombre</label>
+            <input type="text" class="form-control mb-3" @bind="PacienteModel.Nombre" required></input>
+            <label class="form-label">Apellidos</label>
+            <input type="text" class="form-control mb-3" @bind="PacienteModel.Apellidos" required></input>
+            <label class="form-label">Correo electronico</label>
+            <input type="email" class="form-control mb-3" @bind="PacienteModel.CorreoElectronico" required></input>
+            <label class="form-label">Telefono</label>
+            <input type="text" class="form-control mb-3" @bind="PacienteModel.Telefono" required></input>
+            <label class="form-label">Fecha de nacimiento</label>
+            <InputDate class="form-control" @bind-Value="PacienteModel.FechaNacimiento"></InputDate>
+            <label class="form-label">Estado afiliacion</label>
+            <select class="form-select mb-3" @bind="PacienteModel.EstadoAfiliacion" required>
+                @{
+                    foreach (var item in EstadoAfiliaciones)
+                    {
+                        <option value="@item">@item</option>
+                    }
+                }
+            </select>
+            <label class="form-label">TipoDocumento</label>
+            <select class="form-select mb-3" @bind="PacienteModel.IdTipoDocumento" required>
+                @{
+                    foreach (var documento in ListaTipoDocumento)
+                    {
+                        <option value="@documento.IdTipoDocumento">@documento.Nombre</option>
+                    }
+                }
+            </select>
+            <label class="form-label">Numero de documento</label>
+            <input type="text" class="form-control mb-3" @bind="PacienteModel.NumeroDocumento"></input>
+            <button type="submit" class="btn btn-outline-primary">@nombreBoton</button>
+            <button type="button" class="btn btn-outline-secondary" @onclick="Atras">Atras</button>
+        </EditForm>
+    }
+</div>

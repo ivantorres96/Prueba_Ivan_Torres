@@ -1,0 +1,24 @@
+CREATE DATABASE prueba_ivan_torres;
+
+USE prueba_ivan_torres
+
+CREATE TABLE TipoDocumentos
+(
+	IdTipoDocumento DECIMAL(28,0) NOT NULL PRIMARY KEY IDENTITY(1,1),
+	Nombre VARCHAR(50) NOT NULL
+);
+
+CREATE TABLE Paciantes
+(
+	IdPaciente DECIMAL(28,0) NOT NULL PRIMARY KEY IDENTITY(1,1),
+	Nombre VARCHAR(50) NOT NULL,
+	Apellidos VARCHAR(50) NOT NULL,
+	CorreoElectronico VARCHAR(50) NOT NULL,
+	Telefono VARCHAR(10) NOT NULL,
+	FechaNacimiento DATETIME NOT NULL,
+	EstadoAfiliacion VARCHAR(8) NOT NULL,
+	IdTipoDocumento DECIMAL(28,0) NOT NULL FOREIGN KEY REFERENCES TipoDocumentos(IdTipoDocumento),
+	NumeroDocumento VARCHAR(10) NOT NULL,
+);
+
+INSERT INTO TipoDocumentos (Nombre) VALUES ('Cedula de ciudadanía'),('Tarjeta de identidad'),('Pasaporte');
